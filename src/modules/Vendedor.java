@@ -5,17 +5,17 @@ public class Vendedor {
     private String codigo;
     private String nombre;
     private String apellido;
-    private String departamento;
+    private String departamento_codigo;
     private String cargo;
     private int ventas_mensuales;
     private int ventas_anuales;
 
-    public Vendedor(int id, String codigo, String nombre, String apellido, String departamento, String cargo, int ventas_mensuales, int ventas_anuales) {
+    public Vendedor(int id, String codigo, String nombre, String apellido, String departamento_codigo, String cargo, int ventas_mensuales, int ventas_anuales) {
         this.id = id;
         this.codigo = codigo;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.departamento = departamento;
+        this.departamento_codigo = departamento_codigo;
         this.cargo = cargo;
         this.ventas_mensuales = ventas_mensuales;
         this.ventas_anuales = ventas_anuales;
@@ -53,12 +53,12 @@ public class Vendedor {
         this.apellido = apellido;
     }
 
-    public String getDepartamento() {
-        return departamento;
+    public String getDepartamento_codigo() {
+        return departamento_codigo;
     }
 
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
+    public void setDepartamento_codigo(String departamento_codigo) {
+        this.departamento_codigo = departamento_codigo;
     }
 
     public String getCargo() {
