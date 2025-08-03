@@ -110,7 +110,7 @@ public class presentacion implements ActionListener {
         } else if (fuente == mni_abrir) {
             JOptionPane.showMessageDialog(ventana, "Has hecho clic en 'Abrir'");
         } else if (fuente == mni_cliente) {
-            new Cliente();
+            new ClienteView();
         }else if (fuente == mni_vendedor) {
                 new vendedor();
         }else if (fuente == mni_provincia) {
