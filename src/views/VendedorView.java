@@ -22,7 +22,7 @@ public class VendedorView extends JFrame implements ActionListener {
         controller = new VendedorController();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(650, 400);
+        setSize(650, 420);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
@@ -64,7 +64,10 @@ public class VendedorView extends JFrame implements ActionListener {
         btnEliminar  = new JButton("Eliminar");
         btnListar    = new JButton("Listar");
 
-        for (JButton b : new JButton[]{btnLimpiar, btnBuscar, btnAgregar, btnModificar, btnEliminar, btnListar}) {
+        for (JButton b : new JButton[]{
+                btnLimpiar, btnBuscar, btnAgregar,
+                btnModificar, btnEliminar, btnListar
+        }) {
             b.addActionListener(this);
             panelButtons.add(b);
         }
@@ -107,13 +110,14 @@ public class VendedorView extends JFrame implements ActionListener {
             }
             Vendedor v = controller.viewVendedorByCode(codigo);
             if (v != null) {
+                // llena campos
                 txtNombre.setText(v.getNombre());
                 txtApellido.setText(v.getApellido());
                 txtDepartamentoCodigo.setText(v.getDepartamento_codigo());
                 txtCargo.setText(v.getCargo());
-                txtVentaMensual.setText(String.valueOf(v.getVenta_mensual()));
-                txtVentaAnual.setText(String.valueOf(v.getVenta_anual()));
-
+                txtVentaMensual.setText(String.valueOf(v.getVentas_mensuales()));
+                txtVentaAnual.setText(String.valueOf(v.getVentas_anuales()));
+                // estados
                 txtCodigo.setEditable(false);
                 btnModificar.setEnabled(true);
                 btnEliminar.setEnabled(true);
@@ -127,16 +131,19 @@ public class VendedorView extends JFrame implements ActionListener {
             }
 
         } else if (e.getSource() == btnAgregar) {
-            if (fieldsEmpty(codigo, nombre, apellido, deptoCodigo, cargo, txtVentaMensual.getText(), txtVentaAnual.getText())) {
+            if (anyEmpty(codigo, nombre, apellido, deptoCodigo, cargo,
+                    txtVentaMensual.getText(), txtVentaAnual.getText())) {
                 JOptionPane.showMessageDialog(this, "Complete todos los campos.");
                 return;
             }
-            controller.createVendedor(codigo, nombre, apellido, deptoCodigo, cargo, ventasMensual, ventasAnual);
+            controller.createVendedor(codigo, nombre, apellido,
+                    deptoCodigo, cargo, ventasMensual, ventasAnual);
             JOptionPane.showMessageDialog(this, "Vendedor agregado correctamente.");
             estadoInicial();
 
         } else if (e.getSource() == btnModificar) {
-            controller.updateVendedor(codigo, nombre, apellido, deptoCodigo, cargo, ventasMensual, ventasAnual);
+            controller.updateVendedor(codigo, nombre, apellido,
+                    deptoCodigo, cargo, ventasMensual, ventasAnual);
             JOptionPane.showMessageDialog(this, "Vendedor modificado correctamente.");
             estadoInicial();
 
@@ -160,7 +167,7 @@ public class VendedorView extends JFrame implements ActionListener {
                 model.addRow(new Object[]{
                         v.getCodigo(), v.getNombre(), v.getApellido(),
                         v.getDepartamento_codigo(), v.getCargo(),
-                        v.getVenta_mensual(), v.getVenta_anual()
+                        v.getVentas_mensuales(), v.getVentas_anuales()
                 });
             }
             JTable table = new JTable(model);
@@ -170,10 +177,8 @@ public class VendedorView extends JFrame implements ActionListener {
         }
     }
 
-    private boolean fieldsEmpty(String... vals) {
-        for (String s : vals) {
-            if (s == null || s.isEmpty()) return true;
-        }
+    private boolean anyEmpty(String... vals) {
+        for (String s : vals) if (s == null || s.isEmpty()) return true;
         return false;
     }
 
