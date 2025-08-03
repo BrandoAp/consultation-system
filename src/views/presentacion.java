@@ -9,9 +9,10 @@ public class presentacion implements ActionListener {
     JFrame ventana;
     JPanel panelPresentacion;
     JMenuBar menuBar;
-    JMenu mnu_archivo, mnu_modulos;
+    JMenu mnu_archivo, mnu_modulos, mnu_reportes;
     JMenuItem mni_abrir, mni_salir;
-    JMenuItem mni_cliente, mni_vendedor;
+    JMenuItem mni_cliente, mni_vendedor, mni_provincia, mni_departamento;
+    JMenuItem mni_reporteClientes, mni_reporteVendedores;
 
     public presentacion() {
         ventana = new JFrame("Presentación");
@@ -43,9 +44,28 @@ public class presentacion implements ActionListener {
         mni_vendedor = new JMenuItem("Vendedor");
         mni_vendedor.addActionListener(this);
 
+        mni_provincia = new JMenuItem("Provincia");
+        mni_provincia.addActionListener(this);
+
+        mni_departamento = new JMenuItem("Departamento");
+        mni_departamento.addActionListener(this);
+
+        mnu_modulos.add(mni_provincia);
         mnu_modulos.add(mni_cliente);
         mnu_modulos.add(mni_vendedor);
+        mnu_modulos.add(mni_departamento);
         menuBar.add(mnu_modulos);
+
+        mnu_reportes = new JMenu("Reportes");
+        mni_reporteClientes = new JMenuItem("Reporte de Clientes");
+        mni_reporteClientes.addActionListener(this);
+
+        mni_reporteVendedores = new JMenuItem("Reporte de Vendedores");
+        mni_reporteVendedores.addActionListener(this);
+
+        mnu_reportes.add(mni_reporteClientes);
+        mnu_reportes.add(mni_reporteVendedores);
+        menuBar.add(mnu_reportes);
 
         ventana.setJMenuBar(menuBar);
 
@@ -60,9 +80,7 @@ public class presentacion implements ActionListener {
         panelPresentacion.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel uni = new JLabel("Universidad Tecnología de Panamá", SwingConstants.CENTER);
-
         JLabel facu = new JLabel("Facultad de Ingeniería en Sistemas", SwingConstants.CENTER);
-
         JLabel nombre = new JLabel(" Nombre ", SwingConstants.CENTER);
         JLabel nombre1 = new JLabel("Alexander Castroverde", SwingConstants.CENTER);
         JLabel cedula = new JLabel(" Cédula ", SwingConstants.CENTER);
@@ -87,21 +105,27 @@ public class presentacion implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         Object fuente = e.getSource();
-
         if (fuente == mni_salir) {
             System.exit(0);
         } else if (fuente == mni_abrir) {
             JOptionPane.showMessageDialog(ventana, "Has hecho clic en 'Abrir'");
         } else if (fuente == mni_cliente) {
-            abrirModulo("Módulo Cliente");
-        } else if (fuente == mni_vendedor) {
-            abrirModulo("Módulo Vendedor");
+            new Cliente();
+        }else if (fuente == mni_vendedor) {
+                new vendedor();
+        }else if (fuente == mni_provincia) {
+            new provincia();
+        }else if (fuente == mni_departamento) {
+            new departamento();
         }
+
+
+
     }
 
     private void abrirModulo(String titulo) {
         JFrame frameModulo = new JFrame(titulo);
-        frameModulo.setSize(300, 200);
+        frameModulo.setSize(600, 300);
         frameModulo.setLocationRelativeTo(ventana);
         frameModulo.add(new JLabel(titulo, SwingConstants.CENTER), BorderLayout.CENTER);
         frameModulo.setVisible(true);
