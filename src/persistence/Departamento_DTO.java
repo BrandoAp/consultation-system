@@ -10,14 +10,13 @@ import java.util.List;
 public class Departamento_DTO {
 
     public boolean insertDepto(Departamento departamento){
-        String sql = "INSERT INTO departamento (id, codigo, descripcion) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO departamento (codigo, descripcion) VALUES (?, ?)";
 
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, departamento.getId());
-            stmt.setString(2, departamento.getCodigo());
-            stmt.setString(3, departamento.getDescripcion());
+            stmt.setString(1, departamento.getCodigo());
+            stmt.setString(2, departamento.getDescripcion());
 
             stmt.executeUpdate();
             return true;
@@ -27,12 +26,12 @@ public class Departamento_DTO {
         }
     }
 
-    public Departamento getDeptoById(int id){
-        String sql = "SELECT * FROM departamento WHERE id = ?";
+    public Departamento getDeptoByCodigo(String codigo){
+        String sql = "SELECT * FROM departamento WHERE codigo = ?";
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            stmt.setString(1, codigo);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -88,13 +87,13 @@ public class Departamento_DTO {
         }
     }
 
-    public boolean deleteDepto(int id) {
-        String sql = "DELETE FROM departamento WHERE id = ?";
+    public boolean deleteDepto(String codigo) {
+        String sql = "DELETE FROM departamento WHERE codigo = ?";
 
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            stmt.setString(1, codigo);
             stmt.executeUpdate();
             return true;
         } catch (SQLException | NullPointerException ex) {

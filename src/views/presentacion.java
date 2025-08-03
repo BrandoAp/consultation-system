@@ -112,11 +112,11 @@ public class presentacion implements ActionListener {
         } else if (fuente == mni_cliente) {
             new ClienteView();
         }else if (fuente == mni_vendedor) {
-                new vendedor();
+                new VendedorView();
         }else if (fuente == mni_provincia) {
             new provincia();
         }else if (fuente == mni_departamento) {
-            new departamento();
+            new DepartamentoView();
         }
 
 

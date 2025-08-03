@@ -10,6 +10,16 @@ public class Vendedor {
     private int ventas_mensuales;
     private int ventas_anuales;
 
+    public Vendedor(String codigo, String nombre, String apellido, String departamento_codigo, String cargo, int ventas_mensuales, int ventas_anuales) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.departamento_codigo = departamento_codigo;
+        this.cargo = cargo;
+        this.ventas_mensuales = ventas_mensuales;
+        this.ventas_anuales = ventas_anuales;
+    }
+
     public Vendedor(int id, String codigo, String nombre, String apellido, String departamento_codigo, String cargo, int ventas_mensuales, int ventas_anuales) {
         this.id = id;
         this.codigo = codigo;

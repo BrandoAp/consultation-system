@@ -11,6 +11,11 @@ public class Departamento {
         this.descripcion = descripcion;
     }
 
+    public Departamento(String codigo, String descripcion) {
+        this.codigo = codigo;
+        this.descripcion = descripcion;
+    }
+
     public int getId() {
         return id;
     }
