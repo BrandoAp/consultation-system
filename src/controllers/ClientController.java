@@ -12,8 +12,8 @@ public class ClientController {
         this.cliente = new Cliente_DTO();
     }
 
-    public void createClient(int id, String cedula, String nombre, String apellido, String direccion, String telefono, String provincia, int compra_anual) {
-        Cliente clienteModel = new Cliente(id, cedula, nombre, apellido, direccion, telefono, provincia, compra_anual);
+    public void createClient(String cedula, String nombre, String apellido, String direccion, String telefono, String provincia, int compra_anual) {
+        Cliente clienteModel = new Cliente(cedula, nombre, apellido, direccion, telefono, provincia, compra_anual);
         if(cliente.insertClient(clienteModel)) {
             System.out.println("Cliente creado exitosamente.");
         } else {
@@ -21,40 +21,16 @@ public class ClientController {
         }
     }
 
-    public void viewClient(int id){
-        Cliente clientModel = cliente.getClientById(id);
-        if(clientModel != null) {
-            System.out.println("ID: " + clientModel.getId());
-            System.out.println("Cédula: " + clientModel.getCedula());
-            System.out.println("Nombre: " + clientModel.getNombre());
-            System.out.println("Apellido: " + clientModel.getApellido());
-            System.out.println("Dirección: " + clientModel.getDireccion());
-            System.out.println("Teléfono: " + clientModel.getTelefono());
-            System.out.println("Provincia: " + clientModel.getProvincia_codigo());
-            System.out.println("Compra Anual: " + clientModel.getCompra_anual());
-        } else {
-            System.out.println("Cliente no encontrado.");
-        }
+    public List<Cliente> viewAllClients() {
+        return cliente.getClients();
     }
 
-    public void ListClients(){
-        List<Cliente> clientes = cliente.getClients();
-        System.out.println("Lista de Clientes:");
-        for (Cliente clienteModel : clientes) {
-            System.out.println("ID: " + clienteModel.getId());
-            System.out.println("Cédula: " + clienteModel.getCedula());
-            System.out.println("Nombre: " + clienteModel.getNombre());
-            System.out.println("Apellido: " + clienteModel.getApellido());
-            System.out.println("Dirección: " + clienteModel.getDireccion());
-            System.out.println("Teléfono: " + clienteModel.getTelefono());
-            System.out.println("Provincia: " + clienteModel.getProvincia_codigo());
-            System.out.println("Compra Anual: " + clienteModel.getCompra_anual());
-            System.out.println("-----------------------------");
-        }
+    public Cliente getClientByCedula(String cedula) {
+        return cliente.getClientByCedula(cedula);
     }
 
-    public void updateClient(int id, String cedula, String nombre, String apellido, String direccion, String telefono, String provincia, int compra_anual) {
-        Cliente clienteModel = new Cliente(id, cedula, nombre, apellido, direccion, telefono , provincia, compra_anual);
+    public void updateClient(String cedula, String nombre, String apellido, String direccion, String telefono, String provincia, int compra_anual) {
+        Cliente clienteModel = new Cliente(cedula, nombre, apellido, direccion, telefono , provincia, compra_anual);
         if(cliente.updateClient(clienteModel)) {
             System.out.println("Cliente actualizado exitosamente.");
         } else {
@@ -62,8 +38,8 @@ public class ClientController {
         }
     }
 
-    public void deleteClient(int id) {
-        if(cliente.deleteClient(id)) {
+    public void deleteClient(String cedula) {
+        if(cliente.deleteClient(cedula)) {
             System.out.println("Cliente eliminado exitosamente.");
         } else {
             System.out.println("Error al eliminar el cliente.");

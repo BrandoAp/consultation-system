@@ -10,14 +10,24 @@ public class Cliente {
     private String provincia_codigo;
     private int compra_anual;
 
-    public Cliente(int id, String cedula, String nombre, String apellido, String direccion, String telefono, String provincia, int compra_anual) {
-        this.id = id;
+    public Cliente(String cedula, String nombre, String apellido, String direccion, String telefono, String provincia, int compra_anual) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.direccion = direccion;
         this.telefono = telefono;
         this.provincia_codigo = provincia;
+        this.compra_anual = compra_anual;
+    }
+
+    public Cliente(int id, String cedula, String nombre, String apellido, String direccion, String telefono, String provincia_codigo, int compra_anual) {
+        this.id = id;
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.provincia_codigo = provincia_codigo;
         this.compra_anual = compra_anual;
     }
 
