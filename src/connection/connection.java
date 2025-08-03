@@ -20,4 +20,15 @@ public class connection {
         }
     }
 
+    public static void closeConnection(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+                System.out.println("Conexión cerrada correctamente.");
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
+
 }

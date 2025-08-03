@@ -6,16 +6,18 @@ public class Cliente {
     private String nombre;
     private String apellido;
     private String direccion;
-    private String provincia;
+    private String telefono;
+    private String provincia_codigo;
     private int compra_anual;
 
-    public Cliente(int id, String cedula, String nombre, String apellido, String direccion, String provincia, int compra_anual) {
+    public Cliente(int id, String cedula, String nombre, String apellido, String direccion, String telefono, String provincia, int compra_anual) {
         this.id = id;
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.direccion = direccion;
-        this.provincia = provincia;
+        this.telefono = telefono;
+        this.provincia_codigo = provincia;
         this.compra_anual = compra_anual;
     }
 
@@ -59,12 +61,12 @@ public class Cliente {
         this.direccion = direccion;
     }
 
-    public String getProvincia() {
-        return provincia;
+    public String getProvincia_codigo() {
+        return provincia_codigo;
     }
 
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
+    public void setProvincia_codigo(String provincia_codigo) {
+        this.provincia_codigo = provincia_codigo;
     }
 
     public int getCompra_anual() {
@@ -73,5 +75,13 @@ public class Cliente {
 
     public void setCompra_anual(int compra_anual) {
         this.compra_anual = compra_anual;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }
