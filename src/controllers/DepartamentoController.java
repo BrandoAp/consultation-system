@@ -11,8 +11,8 @@ public class DepartamentoController {
         this.departamento_dto = new Departamento_DTO();
     }
 
-    public void createDepartamento(int id, String codigo, String descripcion){
-        Departamento departamento = new Departamento(id, codigo, descripcion);
+    public void createDepartamento(String codigo, String descripcion){
+        Departamento departamento = new Departamento(codigo, descripcion);
         if(departamento_dto.insertDepto(departamento)) {
             System.out.println("Departamento created successfully.");
         } else {
@@ -20,33 +20,16 @@ public class DepartamentoController {
         }
     }
 
-    public void viewDepto(int id){
-        Departamento departamento = departamento_dto.getDeptoById(id);
-        if(departamento != null) {
-            System.out.println("ID: " + departamento.getId());
-            System.out.println("Codigo: " + departamento.getCodigo());
-            System.out.println("Descripcion: " + departamento.getDescripcion());
-        } else {
-            System.out.println("Departamento not found.");
-        }
+    public Departamento viewDepto(String codigo){
+       return departamento_dto.getDeptoByCodigo(codigo);
     }
 
-    public void listDepto(){
-        List<Departamento> departamentos = departamento_dto.getAllDepartamentos();
-        if (departamentos != null) {
-            for (Departamento departamento : departamentos) {
-                System.out.println("ID: " + departamento.getId());
-                System.out.println("Codigo: " + departamento.getCodigo());
-                System.out.println("Descripcion: " + departamento.getDescripcion());
-                System.out.println("-----------------------------");
-            }
-        } else {
-            System.out.println("No departamentos found.");
-        }
+    public List<Departamento> listDepto(){
+        return  departamento_dto.getAllDepartamentos();
     }
 
-    public void updateDepartamento(int id, String codigo, String descripcion){
-        Departamento departamento = new Departamento(id, codigo, descripcion);
+    public void updateDepartamento(String codigo, String descripcion){
+        Departamento departamento = new Departamento(codigo, descripcion);
         if(departamento_dto.updateDepto(departamento)) {
             System.out.println("Departamento updated successfully.");
         } else {
@@ -54,8 +37,8 @@ public class DepartamentoController {
         }
     }
 
-    public void deleteDepto(int id){
-        if(departamento_dto.deleteDepto(id)) {
+    public void deleteDepto(String codigo){
+        if(departamento_dto.deleteDepto(codigo)) {
             System.out.println("Departamento deleted successfully.");
         } else {
             System.out.println("Error deleting departamento.");
