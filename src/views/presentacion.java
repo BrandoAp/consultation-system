@@ -114,7 +114,7 @@ public class presentacion implements ActionListener {
         }else if (fuente == mni_vendedor) {
                 new VendedorView();
         }else if (fuente == mni_provincia) {
-            new provincia();
+            new ProvinciaView();
         }else if (fuente == mni_departamento) {
             new DepartamentoView();
         }

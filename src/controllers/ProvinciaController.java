@@ -12,8 +12,8 @@ public class ProvinciaController {
         this.provinciaDTO = new Provincia_DTO();
     }
 
-    public void createProvincia(int id, String codigo, String descripcion) {
-        Provincia provincia = new Provincia(id, codigo, descripcion);
+    public void createProvincia(String codigo, String descripcion) {
+        Provincia provincia = new Provincia(codigo, descripcion);
         if(provinciaDTO.insertProvincia(provincia)) {
             System.out.println("Provincia creada exitosamente.");
         } else {
@@ -21,26 +21,12 @@ public class ProvinciaController {
         }
     }
 
-    public void viewProvincia(int id) {
-        Provincia provincia = provinciaDTO.getProvinciaById(id);
-        if(provincia != null) {
-            System.out.println("ID: " + provincia.getId());
-            System.out.println("Código: " + provincia.getCodigo());
-            System.out.println("Descripción: " + provincia.getDescripcion());
-        } else {
-            System.out.println("Provincia no encontrada.");
-        }
+    public Provincia viewProvincia(String codigo) {
+        return provinciaDTO.getProvinciaByCode(codigo);
     }
 
-    public void listProvincias() {
-        List<Provincia> provincias = provinciaDTO.getAllProvincias();
-        System.out.println("Lista de Provincias:");
-        for (Provincia provincia : provincias) {
-            System.out.println("ID: " + provincia.getId());
-            System.out.println("Código: " + provincia.getCodigo());
-            System.out.println("Descripción: " + provincia.getDescripcion());
-            System.out.println("-----------------------------");
-        }
+    public List<Provincia> listProvincias() {
+        return provinciaDTO.getAllProvincias();
     }
 
     public void updateProvincia(int id, String codigo, String descripcion) {
@@ -52,8 +38,8 @@ public class ProvinciaController {
         }
     }
 
-    public void deleteProvincia(int id) {
-        if(provinciaDTO.deleteProvincia(id)) {
+    public void deleteProvincia(String codigo) {
+        if(provinciaDTO.deleteProvincia(codigo)) {
             System.out.println("Provincia eliminada exitosamente.");
         } else {
             System.out.println("Error al eliminar la provincia.");
