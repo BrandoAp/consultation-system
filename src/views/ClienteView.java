@@ -21,11 +21,9 @@ public class ClienteView extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Panel principal con BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Panel de campos con GridBagLayout
         JPanel fieldsPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -53,7 +51,6 @@ public class ClienteView extends JFrame implements ActionListener {
             fieldsPanel.add(fields[i], gbc);
         }
 
-        // Panel de botones
         JPanel buttonsPanel = new JPanel(new GridLayout(2, 3, 10, 10));
         btnLimpiar = new JButton("Limpiar");
         btnBuscar = new JButton("Buscar");
@@ -69,18 +66,12 @@ public class ClienteView extends JFrame implements ActionListener {
         buttonsPanel.add(btnEliminar);
         buttonsPanel.add(btnListar);
 
-        // Listeners
-        btnLimpiar.addActionListener(this);
-        btnBuscar.addActionListener(this);
-        btnAgregar.addActionListener(this);
-        btnModificar.addActionListener(this);
-        btnEliminar.addActionListener(this);
-        btnListar.addActionListener(this);
+        for (JButton b : new JButton[]{btnLimpiar, btnBuscar, btnAgregar, btnModificar, btnEliminar, btnListar}) {
+            b.addActionListener(this);
+        }
 
-        // Añadir paneles al principal
         mainPanel.add(fieldsPanel, BorderLayout.CENTER);
         mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
-
         setContentPane(mainPanel);
 
         estadoInicial();
@@ -103,6 +94,54 @@ public class ClienteView extends JFrame implements ActionListener {
         btnBuscar.setEnabled(true);
     }
 
+    private boolean validarFormatoCedula(String cedula) {
+        return cedula.matches("\\d-\\d{4}-\\d{4}");
+    }
+
+    private String formatearNombre(String nombre) {
+        String s = nombre.trim().replaceAll("\\s+", "");
+        if (s.isEmpty()) return s;
+        return s.substring(0,1).toUpperCase() + s.substring(1).toLowerCase();
+    }
+
+    private boolean anyEmpty(String... vals) {
+        for (String v : vals) if (v == null || v.isEmpty()) return true;
+        return false;
+    }
+
+    private boolean validarCamposBasicos() {
+        String cedula = txtCedula.getText().trim();
+        if (!validarFormatoCedula(cedula)) {
+            JOptionPane.showMessageDialog(this, "Cédula debe tener formato 8-2075-7520");
+            return false;
+        }
+        String nombre = formatearNombre(txtNombre.getText());
+        String apellido = formatearNombre(txtApellido.getText());
+        txtNombre.setText(nombre);
+        txtApellido.setText(apellido);
+        if (anyEmpty(nombre, apellido)) {
+            JOptionPane.showMessageDialog(this, "Nombre y apellido no pueden estar vacíos");
+            return false;
+        }
+        String telefono = txtTelefono.getText().trim();
+        if (telefono.length() != 7) {
+            JOptionPane.showMessageDialog(this, "Teléfono debe tener exactamente 7 caracteres");
+            return false;
+        }
+        String prov = txtProvincia.getText().trim();
+        if (prov.length() != 2) {
+            JOptionPane.showMessageDialog(this, "Código de provincia debe tener 2 caracteres");
+            return false;
+        }
+        try {
+            Integer.parseInt(txtCompraAnual.getText().trim());
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Compra anual debe ser un entero");
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
@@ -114,21 +153,14 @@ public class ClienteView extends JFrame implements ActionListener {
         String telefono = txtTelefono.getText().trim();
         String provincia = txtProvincia.getText().trim();
         int compraAnual = 0;
-
-        try {
-            compraAnual = Integer.parseInt(txtCompraAnual.getText().trim());
-        } catch (NumberFormatException ex) {
-            // Si no es un número válido, se queda en 0
-        }
+        try { compraAnual = Integer.parseInt(txtCompraAnual.getText().trim()); } catch (Exception ex) {}
 
         if (src == btnBuscar) {
             if (cedula.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Ingrese la cédula del cliente.");
                 return;
             }
-
             Cliente cliente = controller.getClientByCedula(cedula);
-
             if (cliente != null) {
                 txtNombre.setText(cliente.getNombre());
                 txtApellido.setText(cliente.getApellido());
@@ -150,16 +182,13 @@ public class ClienteView extends JFrame implements ActionListener {
             }
 
         } else if (src == btnAgregar) {
-            if (cedula.isEmpty() || nombre.isEmpty() || apellido.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios (cédula, nombre, apellido).");
-                return;
-            }
-
+            if (!validarCamposBasicos()) return;
             controller.createClient(cedula, nombre, apellido, direccion, telefono, provincia, compraAnual);
             JOptionPane.showMessageDialog(this, "Cliente agregado correctamente.");
             estadoInicial();
 
         } else if (src == btnModificar) {
+            if (!validarCamposBasicos()) return;
             controller.updateClient(cedula, nombre, apellido, direccion, telefono, provincia, compraAnual);
             JOptionPane.showMessageDialog(this, "Cliente modificado correctamente.");
             estadoInicial();
@@ -179,30 +208,20 @@ public class ClienteView extends JFrame implements ActionListener {
 
         } else if (src == btnListar) {
             java.util.List<Cliente> clientes = controller.viewAllClients();
-
             if (clientes.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay clientes registrados.");
                 return;
             }
-
-            // Tabla
             String[] columnas = {"Cédula", "Nombre", "Apellido", "Teléfono", "Provincia"};
             DefaultTableModel model = new DefaultTableModel(columnas, 0);
-
             for (Cliente c : clientes) {
                 model.addRow(new Object[]{
-                        c.getCedula(),
-                        c.getNombre(),
-                        c.getApellido(),
-                        c.getTelefono(),
-                        c.getProvincia_codigo()
+                        c.getCedula(), c.getNombre(), c.getApellido(), c.getTelefono(), c.getProvincia_codigo()
                 });
             }
-
             JTable table = new JTable(model);
             JScrollPane scrollPane = new JScrollPane(table);
             scrollPane.setPreferredSize(new Dimension(600, 300));
-
             JOptionPane.showMessageDialog(this, scrollPane, "Lista de Clientes", JOptionPane.INFORMATION_MESSAGE);
         }
     }
