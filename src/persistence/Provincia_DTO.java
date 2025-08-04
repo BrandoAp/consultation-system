@@ -9,14 +9,13 @@ import java.util.List;
 public class Provincia_DTO {
 
     public boolean insertProvincia(Provincia provincia) {
-        String sql = "INSERT INTO provincia (id, codigo, descripcion) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO provincia (codigo, descripcion) VALUES (?, ?)";
 
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, provincia.getId());
-            stmt.setString(2, provincia.getCodigo());
-            stmt.setString(3, provincia.getDescripcion());
+            stmt.setString(1, provincia.getCodigo());
+            stmt.setString(2, provincia.getDescripcion());
 
             stmt.executeUpdate();
             return true;
@@ -26,12 +25,12 @@ public class Provincia_DTO {
         }
     }
 
-    public Provincia getProvinciaById(int id) {
-        String sql = "SELECT * FROM provincia WHERE id = ?";
+    public Provincia getProvinciaByCode(String codigo) {
+        String sql = "SELECT * FROM provincia WHERE codigo = ?";
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            stmt.setString(1, codigo);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -70,14 +69,13 @@ public class Provincia_DTO {
     }
 
     public boolean updateProvincia(Provincia provincia) {
-        String sql = "UPDATE provincia SET codigo = ?, descripcion = ? WHERE id = ?";
+        String sql = "UPDATE provincia SET descripcion = ? WHERE codigo = ?";
 
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, provincia.getCodigo());
-            stmt.setString(2, provincia.getDescripcion());
-            stmt.setInt(3, provincia.getId());
+            stmt.setString(1, provincia.getDescripcion());
+            stmt.setString(2, provincia.getCodigo());
 
             stmt.executeUpdate();
             return true;
@@ -87,13 +85,13 @@ public class Provincia_DTO {
         }
     }
 
-    public boolean deleteProvincia(int id) {
-        String sql = "DELETE FROM provincia WHERE id = ?";
+    public boolean deleteProvincia(String codigo) {
+        String sql = "DELETE FROM provincia WHERE codigo = ?";
 
         try (Connection conn = connection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
+            stmt.setString(1, codigo);
             stmt.executeUpdate();
             return true;
         } catch (SQLException | NullPointerException ex) {

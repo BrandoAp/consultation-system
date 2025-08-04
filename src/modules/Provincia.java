@@ -11,6 +11,11 @@ public class Provincia {
         this.descripcion = descripcion;
     }
 
+    public Provincia(String codigo, String descripcion) {
+        this.codigo = codigo;
+        this.descripcion = descripcion;
+    }
+
     public int getId() {
         return id;
     }
