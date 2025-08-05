@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import report.ReportUtils;
 
 public class presentacion implements ActionListener {
     JFrame ventana;
@@ -117,6 +118,12 @@ public class presentacion implements ActionListener {
             new ProvinciaView();
         }else if (fuente == mni_departamento) {
             new DepartamentoView();
+        } else if(fuente == mni_reporteClientes)
+            ReportUtils.generateReport("/report/reporte_java.jasper");
+        else if(fuente == mni_reporteVendedores) {
+            ReportUtils.generateReport("/report/reporte_java_vendedor.jasper");
+        } else {
+            JOptionPane.showMessageDialog(ventana, "Opción no implementada aún.");
         }
 
 
